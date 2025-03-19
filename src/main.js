@@ -2,17 +2,34 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 import getData from './js/pixabay-api';
-import { renderPage } from './js/render-functions';
+import { renderPage, clearGallery } from './js/render-functions';
 
 const form = document.querySelector('.form');
 const showLoader = document.querySelector('.loader');
-form.addEventListener('submit', findImage);
+const loadPage = document.querySelector('button[type="button"]')
 
-function findImage(event) {
-  event.preventDefault();
-    
-  const searchName = form.elements['search-text'].value.trim();
+form.addEventListener('submit', handlerForm);
+loadPage.addEventListener('click', handlerLoadPage)
+let searchName = '';
+let page = 1;
 
+
+function handlerForm(event) {
+  event.preventDefault();    
+  searchName = form.elements['search-text'].value.trim();  
+  clearGallery();
+  findImage();  
+  form.reset();  
+}
+
+function handlerLoadPage(){
+  page +=1;
+  findImage();  
+}
+
+
+
+function findImage() {
   if (searchName === '') {
     iziToast.error({
       title: 'Error',
@@ -20,7 +37,7 @@ function findImage(event) {
     });
   } else {
     showLoader.classList.remove('hidden')  
-    getData(searchName)
+    getData(searchName, page)
       .then(data => {
         if (data.hits.length === 0) {
           iziToast.error({
@@ -30,6 +47,7 @@ function findImage(event) {
           });
         } else {
           renderPage(data);
+          console.log(data);
         }
       })
       .catch(error => {
@@ -39,5 +57,4 @@ function findImage(event) {
         showLoader.classList.add('hidden');
       });
   }
-  form.reset();  
 }

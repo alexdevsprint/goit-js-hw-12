@@ -1,11 +1,14 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-let lightbox;
+const gallery = document.querySelector('.gallery');  
 
-export function renderPage(data) {
-  const gallery = document.querySelector('.gallery');
-  gallery.innerHTML = '';
+let lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
+export function renderPage(data) { 
 
   const galleryMarkup = data.hits
     .map(
@@ -51,11 +54,10 @@ export function renderPage(data) {
     .join('');
 
   gallery.insertAdjacentHTML('afterbegin', galleryMarkup);
-
-  lightbox = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
-    captionDelay: 250,
-  });
+  
+  //  lightbox.refresh();
 }
 
-export function loader() {}
+export function clearGallery() {
+  gallery.innerHTML = '';
+}
