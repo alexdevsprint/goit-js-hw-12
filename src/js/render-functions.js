@@ -53,9 +53,9 @@ export function renderPage(data) {
     )
     .join('');
 
-  gallery.insertAdjacentHTML('afterbegin', galleryMarkup);
+  gallery.insertAdjacentHTML('beforeend', galleryMarkup);
   
-  //  lightbox.refresh();
+  lightbox.refresh();
 }
 
 export function clearGallery() {
