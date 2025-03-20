@@ -10,7 +10,7 @@ async function getData(searchName, page = 1) {
       orientation: 'horizontal',
       safesearch: true,
       page: page,
-      per_page: 15,
+      per_page: 49,
     },
   });
   return response.data;

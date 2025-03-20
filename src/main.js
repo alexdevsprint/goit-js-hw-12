@@ -11,10 +11,17 @@ const loadPage = document.querySelector('button[type="button"]');
 form.addEventListener('submit', handlerForm);
 loadPage.addEventListener('click', handlerLoadPage);
 let searchName = '';
+let totalHits = 0;
+let totalPageImage = 0;
 let page = 1;
 
 function handlerForm(event) {
   event.preventDefault();
+
+  totalHits = 0;
+  totalPageImage = 0;
+  page = 1;
+
   searchName = form.elements['search-text'].value.trim();
   clearGallery();
   findImage();
@@ -22,12 +29,22 @@ function handlerForm(event) {
 }
 
 function handlerLoadPage() {
-  console.log(page);
-  page += 1;
-  findImage();
+  if (totalHits > 0) {
+    page += 1;
+    findImage();
+    console.log(totalHits);
+    if (totalHits > totalPageImage) {
+      totalHits = totalHits - totalPageImage;
+    } else {
+      totalHits = totalHits - totalHits;
+    }
+  } else {
+    console.log("We're sorry, but you've reached the end of search results.");
+  }
 }
 
 async function findImage() {
+  console.log(page);
   if (searchName === '') {
     iziToast.error({
       title: 'Error',
@@ -38,6 +55,14 @@ async function findImage() {
 
     try {
       const data = await getData(searchName, page);
+
+      totalPageImage = data.hits.length;
+      if (page === 1) {
+        totalHits = data.totalHits - totalPageImage;
+      }
+
+      console.log(data.hits.length);
+      console.log(data);
 
       if (data.hits.length === 0) {
         iziToast.error({
