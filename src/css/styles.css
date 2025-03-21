@@ -71,9 +71,10 @@ button {
   width: 91px;
   height: 40px;
 }
-button[type="button"]{
-  display: flex;
+.btn-load-more {
+  display: block;
   margin: 0 auto;
+  width: 125px;
 }
 
 button:hover {

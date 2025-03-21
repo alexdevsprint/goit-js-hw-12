@@ -6,7 +6,7 @@ import { renderPage, clearGallery } from './js/render-functions';
 
 const form = document.querySelector('.form');
 const showLoader = document.querySelector('.loader');
-const loadPage = document.querySelector('button[type="button"]');
+const loadPage = document.querySelector('.btn-load-more');
 
 form.addEventListener('submit', handlerForm);
 loadPage.addEventListener('click', handlerLoadPage);
@@ -24,11 +24,12 @@ function handlerForm(event) {
 
   searchName = form.elements['search-text'].value.trim();
   clearGallery();
-  findImage();
+  findImage();  
   form.reset();
 }
 
 function handlerLoadPage() {
+  //---Pagination---
   if (totalHits > 0) {
     page += 1;
     findImage();
@@ -41,9 +42,11 @@ function handlerLoadPage() {
   } else {
     console.log("We're sorry, but you've reached the end of search results.");
   }
+  //-------
 }
 
 async function findImage() {
+  loadPage.classList.add('hidden'); 
   console.log(page);
   if (searchName === '') {
     iziToast.error({
@@ -54,7 +57,7 @@ async function findImage() {
     showLoader.classList.remove('hidden');
 
     try {
-      const data = await getData(searchName, page);
+      const data = await getData(searchName, page);     
 
       totalPageImage = data.hits.length;
       if (page === 1) {
@@ -73,6 +76,9 @@ async function findImage() {
       } else {
         renderPage(data);
       }
+
+      loadPage.classList.remove('hidden');  
+
     } catch (error) {
       console.log('Помилка в doStuff:', error);
     }
