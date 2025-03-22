@@ -110,8 +110,7 @@ input:focus {
   border-width: 3px;
   border-style: dashed solid solid dotted;
   border-color: #4e75ff #4e75ff transparent #4e75ff;
-  border-radius: 50%;
-  display: block;
+  border-radius: 50%; 
   position: relative;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
