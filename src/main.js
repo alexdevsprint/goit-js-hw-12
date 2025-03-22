@@ -10,7 +10,7 @@ const loadPage = document.querySelector('.btn-load-more');
 
 form.addEventListener('submit', handlerForm);
 loadPage.addEventListener('click', handlerLoadPage);
-const per_page = 200;
+const per_page = 15;
 let searchName = '';
 let totalPage = 0;
 let page = 0;
