@@ -43,8 +43,8 @@ function handlerLoadPage() {
 
 async function findImage() {
   loadPage.classList.add('hidden');
-  console.log(page);
-  console.log(totalPage);
+  // console.log(page);
+  // console.log(totalPage);
   if (searchName === '') {
     iziToast.error({
       title: 'Error',
