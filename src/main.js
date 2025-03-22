@@ -10,44 +10,41 @@ const loadPage = document.querySelector('.btn-load-more');
 
 form.addEventListener('submit', handlerForm);
 loadPage.addEventListener('click', handlerLoadPage);
+const per_page = 15;
 let searchName = '';
-let totalHits = 0;
-let totalPageImage = 0;
-let page = 1;
+let totalPage = 0;
+let page = 0;
 
 function handlerForm(event) {
   event.preventDefault();
 
-  totalHits = 0;
-  totalPageImage = 0;
   page = 1;
 
   searchName = form.elements['search-text'].value.trim();
   clearGallery();
-  findImage();  
+  findImage();
   form.reset();
 }
 
 function handlerLoadPage() {
   //---Pagination---
-  if (totalHits > 0) {
+  if (totalPage >= page + 1) {
     page += 1;
     findImage();
-    console.log(totalHits);
-    if (totalHits > totalPageImage) {
-      totalHits = totalHits - totalPageImage;
-    } else {
-      totalHits = totalHits - totalHits;
-    }
   } else {
-    console.log("We're sorry, but you've reached the end of search results.");
+    iziToast.error({
+      title: 'Error',
+      message: "We're sorry, but you've reached the end of search results.",
+    });
+    loadPage.classList.add('hidden');
   }
   //-------
 }
 
 async function findImage() {
-  loadPage.classList.add('hidden'); 
+  loadPage.classList.add('hidden');
   console.log(page);
+  console.log(totalPage);
   if (searchName === '') {
     iziToast.error({
       title: 'Error',
@@ -57,15 +54,11 @@ async function findImage() {
     showLoader.classList.remove('hidden');
 
     try {
-      const data = await getData(searchName, page);     
+      const data = await getData(searchName, page, per_page);
 
-      totalPageImage = data.hits.length;
       if (page === 1) {
-        totalHits = data.totalHits - totalPageImage;
+        totalPage = Math.ceil(data.totalHits / per_page);
       }
-
-      console.log(data.hits.length);
-      console.log(data);
 
       if (data.hits.length === 0) {
         iziToast.error({
@@ -76,11 +69,14 @@ async function findImage() {
       } else {
         renderPage(data);
       }
-
-      loadPage.classList.remove('hidden');  
-
+      if (totalPage >= page) {
+        loadPage.classList.remove('hidden');
+      }
     } catch (error) {
-      console.log('Помилка в doStuff:', error);
+      iziToast.error({
+        title: 'Error',
+        message: 'Something wrong, try again later!',
+      });
     }
 
     showLoader.classList.add('hidden');
