@@ -1,15 +1,14 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const gallery = document.querySelector('.gallery');  
+const gallery = document.querySelector('.gallery');
 
 let lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
 
-export function renderPage(data) { 
-
+export function renderPage(data) {
   const galleryMarkup = data.hits
     .map(
       ({
@@ -54,10 +53,27 @@ export function renderPage(data) {
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', galleryMarkup);
-  
+
   lightbox.refresh();
 }
 
 export function clearGallery() {
   gallery.innerHTML = '';
+}
+
+export function scrollPage() {
+  const galleryItem = document.querySelector('.gallery-item');
+
+  if (galleryItem === undefined) {
+    return;
+  }
+
+  const rect = galleryItem.getBoundingClientRect();
+  const galleryItemHeight = rect.height;
+
+  window.scrollBy({
+    top: galleryItemHeight * 2 + 48,
+    left: 0,
+    behavior: 'smooth',
+  });
 }
