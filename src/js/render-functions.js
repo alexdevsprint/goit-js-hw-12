@@ -61,19 +61,3 @@ export function clearGallery() {
   gallery.innerHTML = '';
 }
 
-export function scrollPage() {
-  const galleryItem = document.querySelector('.gallery-item');
-
-  if (galleryItem === undefined) {
-    return;
-  }
-
-  const rect = galleryItem.getBoundingClientRect();
-  const galleryItemHeight = rect.height;
-
-  window.scrollBy({
-    top: galleryItemHeight * 2 + 48,
-    left: 0,
-    behavior: 'smooth',
-  });
-}

@@ -2,7 +2,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 import getData from './js/pixabay-api';
-import { renderPage, clearGallery, scrollPage } from './js/render-functions';
+import { renderPage, clearGallery} from './js/render-functions';
 
 const form = document.querySelector('.form');
 const showLoader = document.querySelector('.loader');
@@ -86,4 +86,21 @@ async function findImage() {
 
     
   }
+}
+
+export function scrollPage() {
+  const galleryItem = document.querySelector('.gallery-item');
+
+  if (galleryItem === undefined) {
+    return;
+  }
+
+  const rect = galleryItem.getBoundingClientRect();
+  const galleryItemHeight = rect.height;
+
+  window.scrollBy({
+    top: galleryItemHeight * 2,
+    left: 0,
+    behavior: 'smooth',
+  });
 }
