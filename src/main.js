@@ -2,7 +2,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 import getData from './js/pixabay-api';
-import { renderPage, clearGallery} from './js/render-functions';
+import { renderPage, clearGallery } from './js/render-functions';
 
 const form = document.querySelector('.form');
 const showLoader = document.querySelector('.loader');
@@ -30,7 +30,7 @@ function handlerLoadPage() {
   //---Pagination---
   if (totalPage >= page + 1) {
     page += 1;
-    findImage();    
+    findImage();
   } else {
     iziToast.error({
       title: 'Error',
@@ -77,14 +77,12 @@ async function findImage() {
         title: 'Error',
         message: 'Something wrong, try again later!',
       });
-    } finally {      
-      showLoader.classList.add('hidden');      
+    } finally {
+      showLoader.classList.add('hidden');
       if (page > 1) {
         scrollPage();
       }
     }
-
-    
   }
 }
 

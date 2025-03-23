@@ -60,4 +60,3 @@ export function renderPage(data) {
 export function clearGallery() {
   gallery.innerHTML = '';
 }
-
